@@ -22,6 +22,7 @@ This exercise evaluates proficiency in building a robust and scalable frontend a
 - [ ] Set up project folder structure
 
 #### 1.2 Project Structure
+
 ```
 src/
 ├── components/

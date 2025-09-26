@@ -2,13 +2,33 @@ import React, { useMemo, useState, useRef } from "react";
 import { RawBankingData } from "../types/banking";
 import { validateBankingData } from "../utils/validation/dataValidator";
 import {
-  BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, LabelList,
-  PieChart, Pie, Cell, LineChart, Line
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  Tooltip,
+  ResponsiveContainer,
+  CartesianGrid,
+  LabelList,
+  PieChart,
+  Pie,
+  Cell,
+  LineChart,
+  Line
 } from "recharts";
 import {
-  Stat, StatLabel, Button, Select, Heading, VStack, Box, Grid, GridItem, HStack, Text
+  Stat,
+  StatLabel,
+  Button,
+  Select,
+  Heading,
+  VStack,
+  Box,
+  Grid,
+  GridItem,
+  HStack,
+  Text
 } from "@chakra-ui/react";
-import { DownloadIcon } from "@chakra-ui/icons";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Papa from "papaparse";
@@ -101,10 +121,27 @@ const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({ rawData }) => {
       const hour = new Date(row.transactionDate).getHours().toString().padStart(2, "0");
       map[hour] = (map[hour] || 0) + row.transactionAmount;
     });
-    return Array.from({ length: 24 }, (_, i) => {
+    const hourlyAmounts = Array.from({ length: 24 }, (_, i) => {
       const hour = i.toString().padStart(2, "0");
       return { hour, amount: map[hour] || 0 };
     });
+    
+    // Calculate dynamic range for clearer visualization
+    const amounts = hourlyAmounts.map(d => d.amount).filter(amount => amount > 0);
+    if (amounts.length === 0) return hourlyAmounts;
+    
+    const minAmount = Math.min(...amounts);
+    const maxAmount = Math.max(...amounts);
+    const range = maxAmount - minAmount;
+    
+    // Use 80% of the range to focus on the most relevant data
+    const adjustedMin = minAmount + (range * 0.1);
+    const adjustedMax = maxAmount - (range * 0.1);
+    
+    return hourlyAmounts.map(d => ({
+      ...d,
+      amount: Math.max(adjustedMin, Math.min(adjustedMax, d.amount))
+    }));
   }, [filteredRecords]);
 
   // Histogram: Transaction amount distribution
@@ -173,7 +210,7 @@ const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({ rawData }) => {
     <Box p={8} maxW="1200px" mx="auto" ref={dashboardRef}>
       <VStack gap={8} align="stretch">
         <Heading as="h2" size="xl" textAlign="center" color="gray.800">
-          🏦 Banking Analytics Dashboard
+          Banking Analytics Dashboard
         </Heading>
 
         {/* Filters Section */}
@@ -206,6 +243,9 @@ const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({ rawData }) => {
                 placeholder="All Branches"
                 value={selectedBranch}
                 onChange={(e) => setSelectedBranch(e.target.value)}
+                title="Select branch to filter transactions"
+                aria-label="Branch filter selection"
+                id="branch-select"
               >
                 {branchOptions.map((branch: string) => (
                   <option key={branch} value={branch}>{branch}</option>
@@ -218,6 +258,9 @@ const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({ rawData }) => {
                 placeholder="All Types"
                 value={selectedType}
                 onChange={(e) => setSelectedType(e.target.value)}
+                title="Select transaction type to filter data"
+                aria-label="Transaction type filter selection"
+                id="type-select"
               >
                 {typeOptions.map((type: string) => (
                   <option key={type} value={type}>{type}</option>
@@ -245,33 +288,33 @@ const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({ rawData }) => {
           <GridItem>
             <Stat p={6} bg="gray.50" borderRadius="lg" shadow="md">
               <StatLabel fontSize="sm" color="gray.600">Valid Records</StatLabel>
-              <div style={{ fontSize: "24px", color: "#10b981", fontWeight: "bold" }}>{filteredRecords.length}</div>
-              <div style={{ fontSize: "14px", color: "#64748b" }}>Filtered from {validRecords.length} total</div>
+              <div className="summary-stat-large summary-stat-green">{filteredRecords.length}</div>
+              <div className="summary-stat-small">Filtered from {validRecords.length} total</div>
             </Stat>
           </GridItem>
           <GridItem>
             <Stat p={6} bg="gray.50" borderRadius="lg" shadow="md">
               <StatLabel fontSize="sm" color="gray.600">Unique Customers</StatLabel>
-              <div style={{ fontSize: "24px", color: "#3b82f6", fontWeight: "bold" }}>{customerCount}</div>
-              <div style={{ fontSize: "14px", color: "#64748b" }}>In filtered data</div>
+              <div className="summary-stat-large summary-stat-blue">{customerCount}</div>
+              <div className="summary-stat-small">In filtered data</div>
             </Stat>
           </GridItem>
           <GridItem>
             <Stat p={6} bg="gray.50" borderRadius="lg" shadow="md">
               <StatLabel fontSize="sm" color="gray.600">Total Volume</StatLabel>
-              <div style={{ fontSize: "24px", color: "#f59e0b", fontWeight: "bold" }}>
+              <div className="summary-stat-large summary-stat-orange">
                 {totalVolume.toLocaleString(undefined, { maximumFractionDigits: 2 })}
               </div>
-              <div style={{ fontSize: "14px", color: "#64748b" }}>In filtered data</div>
+              <div className="summary-stat-small">In filtered data</div>
             </Stat>
           </GridItem>
           <GridItem>
             <Stat p={6} bg="gray.50" borderRadius="lg" shadow="md">
               <StatLabel fontSize="sm" color="gray.600">Avg Transaction</StatLabel>
-              <div style={{ fontSize: "24px", color: "#ef4444", fontWeight: "bold" }}>
+              <div className="summary-stat-large summary-stat-red">
                 {avgTransaction.toLocaleString(undefined, { maximumFractionDigits: 2 })}
               </div>
-              <div style={{ fontSize: "14px", color: "#64748b" }}>In filtered data</div>
+              <div className="summary-stat-small">In filtered data</div>
             </Stat>
           </GridItem>
         </Grid>
@@ -280,7 +323,7 @@ const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({ rawData }) => {
         <VStack gap={8} align="stretch">
           {/* Branch Performance */}
           <Box p={6} bg="white" borderRadius="lg" shadow="md">
-            <Heading as="h3" size="md" mb={4}>🏦 Branch Performance (Top 10)</Heading>
+            <Heading as="h3" size="md" mb={4}>Branch Performance (Top 10)</Heading>
             <ResponsiveContainer width="100%" height={350}>
               <BarChart data={branchVolume} layout="vertical" margin={{ left: 40, right: 40, top: 20, bottom: 20 }}>
                 <CartesianGrid strokeDasharray="3 3" />
@@ -317,7 +360,7 @@ const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({ rawData }) => {
 
           {/* Daily Transaction Trends */}
           <Box p={6} bg="white" borderRadius="lg" shadow="md">
-            <Heading as="h3" size="md" mb={4}>📈 Daily Transaction Trends</Heading>
+            <Heading as="h3" size="md" mb={4}>Daily Transaction Trends</Heading>
             <ResponsiveContainer width="100%" height={350}>
               <LineChart data={trendData}>
                 <CartesianGrid strokeDasharray="3 3" />
@@ -335,7 +378,7 @@ const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({ rawData }) => {
 
           {/* Gender Distribution */}
           <Box p={6} bg="white" borderRadius="lg" shadow="md">
-            <Heading as="h3" size="md" mb={4}>👥 Customer Gender Distribution</Heading>
+            <Heading as="h3" size="md" mb={4}>Customer Gender Distribution</Heading>
             <ResponsiveContainer width="100%" height={300}>
               <PieChart>
                 <Pie data={genderData} dataKey="value" nameKey="name" outerRadius={100} label>
@@ -350,7 +393,7 @@ const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({ rawData }) => {
 
           {/* Hourly Transaction Volume */}
           <Box p={6} bg="white" borderRadius="lg" shadow="md">
-            <Heading as="h3" size="md" mb={4}>🕐 Hourly Transaction Volume</Heading>
+            <Heading as="h3" size="md" mb={4}>Hourly Transaction Volume</Heading>
             <ResponsiveContainer width="100%" height={300}>
               <BarChart data={hourlyData} margin={{ left: 30, right: 30, top: 20, bottom: 20 }}>
                 <CartesianGrid strokeDasharray="3 3" />
@@ -364,7 +407,7 @@ const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({ rawData }) => {
 
           {/* Transaction Amount Distribution */}
           <Box p={6} bg="white" borderRadius="lg" shadow="md">
-            <Heading as="h3" size="md" mb={4}>💰 Transaction Amount Distribution</Heading>
+            <Heading as="h3" size="md" mb={4}>Transaction Amount Distribution</Heading>
             <ResponsiveContainer width="100%" height={300}>
               <BarChart data={histogramData} margin={{ left: 30, right: 30, top: 20, bottom: 20 }}>
                 <CartesianGrid strokeDasharray="3 3" />

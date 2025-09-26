@@ -16,8 +16,7 @@ import {
   HStack,
   Button,
   Spinner,
-  Progress,
-  Grid
+  Progress
 } from '@chakra-ui/react';
 
 
@@ -534,8 +533,10 @@ function App() {
               type="file"
               accept=".csv"
               ref={fileInputRef}
-                    onChange={handleFileChange}
-              style={{ display: 'none' }}
+              onChange={handleFileChange}
+              className="hidden-file-input"
+              title="Select CSV file for banking data analysis"
+              aria-label="Upload CSV file"
             />
                   
                   <Button 
@@ -583,15 +584,9 @@ function App() {
                           placeholder="https://example.com/data.csv"
                           value={csvUrl}
                           onChange={(e) => setCsvUrl(e.target.value)}
-                          style={{
-                            width: '100%',
-                            padding: '12px 16px',
-                            border: '2px solid #e2e8f0',
-                            borderRadius: '8px',
-                            fontSize: '14px',
-                            outline: 'none',
-                            transition: 'border-color 0.2s'
-                          }}
+                          className="url-input"
+                          title="Enter URL to CSV file for online data analysis"
+                          aria-label="CSV file URL input"
                           onFocus={(e) => {
                             e.target.style.borderColor = '#667eea';
                           }}
