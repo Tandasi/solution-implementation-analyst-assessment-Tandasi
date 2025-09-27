@@ -309,7 +309,7 @@ def show_overview(filtered_df, df_features):
                 color_discrete_sequence=['#1f77b4']
             )
             fig1.update_layout(height=400, hovermode='x unified', showlegend=False)
-            st.plotly_chart(fig1, width='stretch')
+            st.plotly_chart(fig1, use_container_width=True)
         
         with col2:
             fig2 = px.histogram(
@@ -321,7 +321,7 @@ def show_overview(filtered_df, df_features):
                 color_discrete_sequence=['#2ca02c']
             )
             fig2.update_layout(height=400, hovermode='x unified', showlegend=False)
-            st.plotly_chart(fig2, width='stretch')
+            st.plotly_chart(fig2, use_container_width=True)
     
     elif chart_type == "Comparison Charts":
         col3, col4 = st.columns(2)
@@ -337,7 +337,7 @@ def show_overview(filtered_df, df_features):
                 color_continuous_scale='Blues'
             )
             fig3.update_layout(height=400, xaxis_tickangle=-45, hovermode='x unified')
-            st.plotly_chart(fig3, width='stretch')
+            st.plotly_chart(fig3, use_container_width=True)
         
         with col4:
             gender_counts = filtered_df['Gender'].value_counts()
@@ -348,7 +348,7 @@ def show_overview(filtered_df, df_features):
                 color_discrete_sequence=['#ff7f0e', '#2ca02c']
             )
             fig4.update_layout(height=400)
-            st.plotly_chart(fig4, width='stretch')
+            st.plotly_chart(fig4, use_container_width=True)
     
     elif chart_type == "Trend Analysis":
         col5, col6 = st.columns(2)
@@ -364,7 +364,7 @@ def show_overview(filtered_df, df_features):
                 color_continuous_scale='Viridis'
             )
             fig5.update_layout(height=400, hovermode='x unified')
-            st.plotly_chart(fig5, width='stretch')
+            st.plotly_chart(fig5, use_container_width=True)
         
         with col6:
             sample_df = filtered_df.sample(min(1000, len(filtered_df)))
@@ -379,7 +379,7 @@ def show_overview(filtered_df, df_features):
                 hover_data=['City', 'Account Type']
             )
             fig6.update_layout(height=400)
-            st.plotly_chart(fig6, width='stretch')
+            st.plotly_chart(fig6, use_container_width=True)
     
     # Summary statistics
     st.header("Summary Statistics")
@@ -423,7 +423,7 @@ def show_advanced_analytics(filtered_df):
             color_discrete_sequence=['#ff7f0e']
         )
         fig1.update_layout(height=400)
-        st.plotly_chart(fig1, width='stretch')
+        st.plotly_chart(fig1, use_container_width=True)
     
     with col2:
         fig2 = px.histogram(
@@ -435,7 +435,7 @@ def show_advanced_analytics(filtered_df):
             color_discrete_sequence=['#e74c3c']
         )
         fig2.update_layout(height=400)
-        st.plotly_chart(fig2, width='stretch')
+        st.plotly_chart(fig2, use_container_width=True)
     
     st.subheader("Advanced Metrics")
     
@@ -486,7 +486,7 @@ def show_ml_models(df_features):
             color_continuous_scale='Blues'
         )
         fig1.update_layout(height=400)
-        st.plotly_chart(fig1, width='stretch')
+        st.plotly_chart(fig1, use_container_width=True)
     
     with col2:
         fig2 = px.bar(
@@ -498,7 +498,7 @@ def show_ml_models(df_features):
             color_continuous_scale='Greens'
         )
         fig2.update_layout(height=400)
-        st.plotly_chart(fig2, width='stretch')
+        st.plotly_chart(fig2, use_container_width=True)
     
     st.subheader("Feature Importance (Random Forest)")
     
@@ -526,7 +526,7 @@ def show_ml_models(df_features):
         color_continuous_scale='Viridis'
     )
     fig3.update_layout(height=400)
-    st.plotly_chart(fig3, width='stretch')
+    st.plotly_chart(fig3, use_container_width=True)
 
 def show_risk_analysis(filtered_df):
     """Show risk analysis from notebook"""
@@ -548,7 +548,7 @@ def show_risk_analysis(filtered_df):
             color_discrete_sequence=['#2ecc71', '#f39c12', '#e74c3c', '#8e44ad']
         )
         fig1.update_layout(height=400)
-        st.plotly_chart(fig1, width='stretch')
+        st.plotly_chart(fig1, use_container_width=True)
     
     with col2:
         fig2 = px.scatter(
@@ -562,7 +562,7 @@ def show_risk_analysis(filtered_df):
             hover_data=['Age', 'City']
         )
         fig2.update_layout(height=400)
-        st.plotly_chart(fig2, width='stretch')
+        st.plotly_chart(fig2, use_container_width=True)
     
     st.subheader("Risk Metrics")
     
@@ -602,7 +602,7 @@ def show_customer_segmentation(filtered_df):
             color_continuous_scale='Blues'
         )
         fig1.update_layout(height=400)
-        st.plotly_chart(fig1, width='stretch')
+        st.plotly_chart(fig1, use_container_width=True)
     
     with col2:
         fig2 = px.scatter(
@@ -616,7 +616,7 @@ def show_customer_segmentation(filtered_df):
             hover_data=['City', 'Account Type']
         )
         fig2.update_layout(height=400)
-        st.plotly_chart(fig2, width='stretch')
+        st.plotly_chart(fig2, use_container_width=True)
     
     st.subheader("Segment Analysis")
     
@@ -731,7 +731,7 @@ def show_deep_learning(df_features):
                 color_discrete_sequence=['#e74c3c', '#3498db']
             )
             fig1.update_layout(height=400)
-            st.plotly_chart(fig1, width='stretch')
+            st.plotly_chart(fig1, use_container_width=True)
         
         with col2:
             fig2 = px.line(
@@ -742,7 +742,7 @@ def show_deep_learning(df_features):
                 color_discrete_sequence=['#2ecc71', '#f39c12']
             )
             fig2.update_layout(height=400)
-            st.plotly_chart(fig2, width='stretch')
+            st.plotly_chart(fig2, use_container_width=True)
         
     except ImportError:
         st.error("TensorFlow not installed. Please install with: pip install tensorflow")
@@ -849,7 +849,7 @@ def show_ensemble_models(df_features):
             color_continuous_scale='Blues'
         )
         fig1.update_layout(height=400, xaxis_tickangle=-45)
-        st.plotly_chart(fig1, width='stretch')
+        st.plotly_chart(fig1, use_container_width=True)
     
     with col2:
         fig2 = px.bar(
@@ -861,7 +861,7 @@ def show_ensemble_models(df_features):
             color_continuous_scale='Greens'
         )
         fig2.update_layout(height=400, xaxis_tickangle=-45)
-        st.plotly_chart(fig2, width='stretch')
+        st.plotly_chart(fig2, use_container_width=True)
     
     # Best model
     best_model = results_df['auc'].idxmax()
@@ -908,7 +908,7 @@ def show_model_explainability(df_features):
         color_continuous_scale='Viridis'
     )
     fig1.update_layout(height=400)
-    st.plotly_chart(fig1, width='stretch')
+    st.plotly_chart(fig1, use_container_width=True)
     
     # Model performance summary
     st.subheader("Model Performance Summary")
@@ -997,7 +997,7 @@ def show_mlops_pipeline(df_features):
     )
     fig1.add_hline(y=0.2, line_dash="dash", line_color="red", annotation_text="Alert Threshold")
     fig1.update_layout(height=400)
-    st.plotly_chart(fig1, width='stretch')
+    st.plotly_chart(fig1, use_container_width=True)
     
     # A/B Testing framework
     st.subheader("A/B Testing Framework")
@@ -1052,7 +1052,7 @@ def show_mlops_pipeline(df_features):
             color_continuous_scale='RdYlGn'
         )
         fig2.update_layout(height=400, xaxis_tickangle=-45)
-        st.plotly_chart(fig2, width='stretch')
+        st.plotly_chart(fig2, use_container_width=True)
 
 def show_correlation_analysis(filtered_df):
     """Show correlation analysis from notebook"""
@@ -1081,7 +1081,7 @@ def show_correlation_analysis(filtered_df):
             font_size=10
         )
         
-        st.plotly_chart(fig, width='stretch')
+        st.plotly_chart(fig, use_container_width=True)
         
         # Top correlations
         st.subheader("Top Correlations")
@@ -1138,7 +1138,7 @@ def show_correlation_analysis(filtered_df):
                 color_continuous_scale='Blues'
             )
             fig2.update_layout(height=400)
-            st.plotly_chart(fig2, width='stretch')
+            st.plotly_chart(fig2, use_container_width=True)
     
     else:
         st.warning("No numeric columns found for correlation analysis.")
@@ -1171,7 +1171,7 @@ def show_fraud_detection(filtered_df):
             color_discrete_sequence=['#2ecc71', '#f39c12', '#e74c3c', '#8e44ad']
         )
         fig1.update_layout(height=400)
-        st.plotly_chart(fig1, width='stretch')
+        st.plotly_chart(fig1, use_container_width=True)
     
     with col2:
         fig2 = px.scatter(
@@ -1185,7 +1185,7 @@ def show_fraud_detection(filtered_df):
             hover_data=['Age', 'City', 'Account Balance']
         )
         fig2.update_layout(height=400)
-        st.plotly_chart(fig2, width='stretch')
+        st.plotly_chart(fig2, use_container_width=True)
     
     # Fraud metrics
     st.subheader("Fraud Detection Metrics")
@@ -1249,7 +1249,7 @@ def show_churn_prediction(filtered_df):
             color_continuous_scale='Reds'
         )
         fig1.update_layout(height=400)
-        st.plotly_chart(fig1, width='stretch')
+        st.plotly_chart(fig1, use_container_width=True)
     
     with col2:
         fig2 = px.scatter(
@@ -1263,7 +1263,7 @@ def show_churn_prediction(filtered_df):
             hover_data=['Age', 'City', 'Account Type']
         )
         fig2.update_layout(height=400)
-        st.plotly_chart(fig2, width='stretch')
+        st.plotly_chart(fig2, use_container_width=True)
     
     # Churn metrics
     st.subheader("Churn Prediction Metrics")
@@ -1326,7 +1326,7 @@ def show_credit_scoring(filtered_df):
             color_continuous_scale='RdYlGn'
         )
         fig1.update_layout(height=400)
-        st.plotly_chart(fig1, width='stretch')
+        st.plotly_chart(fig1, use_container_width=True)
     
     with col2:
         fig2 = px.scatter(
@@ -1340,7 +1340,7 @@ def show_credit_scoring(filtered_df):
             hover_data=['Age', 'City', 'Account Balance']
         )
         fig2.update_layout(height=400)
-        st.plotly_chart(fig2, width='stretch')
+        st.plotly_chart(fig2, use_container_width=True)
     
     # Credit metrics
     st.subheader("Credit Scoring Metrics")
@@ -1412,7 +1412,7 @@ def show_loan_analysis(filtered_df):
             color_discrete_sequence=['#3498db']
         )
         fig1.update_layout(height=400)
-        st.plotly_chart(fig1, width='stretch')
+        st.plotly_chart(fig1, use_container_width=True)
     
     with col2:
         loan_by_city = filtered_df[filtered_df['Loan Amount'] > 0].groupby('City')['Loan Amount'].sum().head(10)
@@ -1425,7 +1425,7 @@ def show_loan_analysis(filtered_df):
             color_continuous_scale='Blues'
         )
         fig2.update_layout(height=400, xaxis_tickangle=-45)
-        st.plotly_chart(fig2, width='stretch')
+        st.plotly_chart(fig2, use_container_width=True)
     
     # Loan risk analysis
     st.subheader("Loan Risk Analysis")
@@ -1459,7 +1459,7 @@ def show_loan_analysis(filtered_df):
         color_discrete_sequence=['#2ecc71', '#f39c12', '#e74c3c', '#8e44ad']
     )
     fig3.update_layout(height=400)
-    st.plotly_chart(fig3, width='stretch')
+    st.plotly_chart(fig3, use_container_width=True)
 
 def show_transaction_analysis(filtered_df):
     """Show transaction analysis"""
@@ -1497,7 +1497,7 @@ def show_transaction_analysis(filtered_df):
             color_discrete_sequence=['#e74c3c']
         )
         fig1.update_layout(height=400)
-        st.plotly_chart(fig1, width='stretch')
+        st.plotly_chart(fig1, use_container_width=True)
     
     with col2:
         transaction_by_city = filtered_df[filtered_df['Transaction Amount'] > 0].groupby('City')['Transaction Amount'].sum().head(10)
@@ -1510,7 +1510,7 @@ def show_transaction_analysis(filtered_df):
             color_continuous_scale='Reds'
         )
         fig2.update_layout(height=400, xaxis_tickangle=-45)
-        st.plotly_chart(fig2, width='stretch')
+        st.plotly_chart(fig2, use_container_width=True)
     
     # Transaction patterns
     st.subheader("Transaction Patterns")
@@ -1553,7 +1553,7 @@ def show_customer_lifetime_value(filtered_df):
             color_continuous_scale='Viridis'
         )
         fig1.update_layout(height=400)
-        st.plotly_chart(fig1, width='stretch')
+        st.plotly_chart(fig1, use_container_width=True)
     
     with col2:
         fig2 = px.scatter(
@@ -1567,7 +1567,7 @@ def show_customer_lifetime_value(filtered_df):
             hover_data=['City', 'Account Type', 'Account Balance']
         )
         fig2.update_layout(height=400)
-        st.plotly_chart(fig2, width='stretch')
+        st.plotly_chart(fig2, use_container_width=True)
     
     # CLV metrics
     st.subheader("CLV Metrics")
@@ -1643,7 +1643,7 @@ def show_market_basket_analysis(filtered_df):
             color_continuous_scale='Blues'
         )
         fig1.update_layout(height=400)
-        st.plotly_chart(fig1, width='stretch')
+        st.plotly_chart(fig1, use_container_width=True)
     
     with col2:
         # Product combinations
@@ -1667,7 +1667,7 @@ def show_market_basket_analysis(filtered_df):
                 color_continuous_scale='Greens'
             )
             fig2.update_layout(height=400)
-            st.plotly_chart(fig2, width='stretch')
+            st.plotly_chart(fig2, use_container_width=True)
     
     # Cross-selling opportunities
     st.subheader("Cross-Selling Opportunities")
@@ -1709,7 +1709,7 @@ def show_time_series_analysis(filtered_df):
             labels={'Year': 'Year', 'Account Balance': 'Total Balance (Ksh)'}
         )
         fig1.update_layout(height=400)
-        st.plotly_chart(fig1, width='stretch')
+        st.plotly_chart(fig1, use_container_width=True)
     
     with col2:
         monthly_trends = filtered_df.groupby('Month').agg({
@@ -1724,7 +1724,7 @@ def show_time_series_analysis(filtered_df):
             labels={'Month': 'Month', 'Customer ID': 'New Customers'}
         )
         fig2.update_layout(height=400)
-        st.plotly_chart(fig2, width='stretch')
+        st.plotly_chart(fig2, use_container_width=True)
     
     # Seasonal analysis
     st.subheader("Seasonal Analysis")
@@ -1785,7 +1785,7 @@ def show_anomaly_detection(filtered_df):
             color_continuous_scale='Reds'
         )
         fig1.update_layout(height=400, xaxis_tickangle=-45)
-        st.plotly_chart(fig1, width='stretch')
+        st.plotly_chart(fig1, use_container_width=True)
     
     with col2:
         # Anomaly rate
@@ -1802,7 +1802,7 @@ def show_anomaly_detection(filtered_df):
             color_continuous_scale='Oranges'
         )
         fig2.update_layout(height=400, xaxis_tickangle=-45)
-        st.plotly_chart(fig2, width='stretch')
+        st.plotly_chart(fig2, use_container_width=True)
     
     # Anomaly detection metrics
     st.subheader("Anomaly Detection Metrics")
@@ -1890,7 +1890,7 @@ def show_business_intelligence(filtered_df):
             color_continuous_scale='Blues'
         )
         fig1.update_layout(height=400, xaxis_tickangle=-45)
-        st.plotly_chart(fig1, width='stretch')
+        st.plotly_chart(fig1, use_container_width=True)
     
     with col2:
         # Account type distribution
@@ -1902,7 +1902,7 @@ def show_business_intelligence(filtered_df):
             color_discrete_sequence=['#3498db', '#e74c3c', '#2ecc71', '#f39c12']
         )
         fig2.update_layout(height=400)
-        st.plotly_chart(fig2, width='stretch')
+        st.plotly_chart(fig2, use_container_width=True)
     
     # Business metrics
     st.subheader("Business Metrics")
