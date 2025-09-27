@@ -1,0 +1,50 @@
+/* App-specific styles for input elements */
+
+.hidden-file-input {
+  display: none;
+}
+
+.url-input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.url-input:focus {
+  border-color: #667eea;
+}
+
+.url-input:hover {
+  border-color: #cbd5e0;
+}
+
+/* Analytics Dashboard Summary Stats Styles */
+.summary-stat-large {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.summary-stat-small {
+  font-size: 14px;
+  color: #64748b;
+}
+
+.summary-stat-green {
+  color: #10b981;
+}
+
+.summary-stat-blue {
+  color: #3b82f6;
+}
+
+.summary-stat-orange {
+  color: #f59e0b;
+}
+
+.summary-stat-red {
+  color: #ef4444;
+}
